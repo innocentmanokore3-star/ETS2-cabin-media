@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Cabin Audio System</title>
+  
+  <style>
+    /* ==========================================
+       1. UPGRADED MEDIA CONTROLLER STYLES (Isolated)
+       ========================================== */
+    .media-controller-card {
+      background: #111318; 
+      color: #eee;
+      font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+      padding: 20px 16px 28px;
+      margin: 16px auto;
+      max-width: 500px; 
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05);
+      box-sizing: border-box;
+      border: 1px solid #1f222a;
+    }
+    
+    .media-controller-card h1 { 
+      font-size: 15px; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      text-align: center; 
+      margin: 0 0 16px; 
+      color: #ffb400; 
+      font-weight: 700;
+    }
+
+    /* --- THE HUD CONSOLE DISPLAY --- */
+    .hud-console {
+      background: #07080a;
+      border: 1px solid #222630;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .hud-console::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 2; background-size: 100% 3px, 3px 100%; pointer-events: none;
+    }
+    .hud-header {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; font-weight: bold; color: #555e70; text-transform: uppercase;
+      margin-bottom: 8px; border-bottom: 1px dashed #1c1f26; padding-bottom: 6px;
+    }
+    .status {
+      font-size: 11px; font-weight: bold; color: #8fa0bc;
+    }
+    .status.live { color: #4caf50; }
+    
+    .hud-main { display: flex; align-items: center; gap: 14px; margin-top: 10px;}
+    .hud-track-details { flex: 1; min-width: 0; }
+    
+    #trackName { 
+      font-size: 17px; font-weight: 700; color: #fff; margin: 0 0 4px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    #trackArtist {
+      font-size: 13px; color: #ffb400; margin: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Equalizer Animation */
+    .eq-container { display: flex; align-items: flex-end; gap: 3px; height: 24px; width: 30px; }
+    .eq-bar { width: 4px; height: 3px; background-color: #ffb400; border-radius: 1px; transition: height 0.2s ease; }
+    .playing .eq-bar { animation: bounce 0.8s ease infinite alternate; }
+    .playing .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .playing .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+    .playing .eq-bar:nth-child(4) { animation-delay: 0.1s; }
+    @keyframes bounce { 
+      0% { height: 4px; } 
+      100% { height: 22px; } 
+    }
+
+    /* --- CONTROLLER BUTTONS & INTERACTIVE ELEMENTS --- */
+    .source-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
+    .source-grid button { font-size: 11px !important; padding: 12px 2px !important; border-radius: 10px !important; font-weight: 600;}
+    
+    /* Dynamic Spotify Selector Dropdown Container */
+    .spotify-device-deck {
+      display: none;
+      background: #161a22;
+      border: 1px solid #232a36;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+      align-items: center;
+      gap: 10px;
+    }
+    .spotify-device-deck select {
+      flex: 1;
+      background: #0d1015;
+      color: #fff;
+      border: 1px solid #2e3747;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .spotify-device-deck button {
+      background: #1db954 !important; 
+      color: #fff !important;
+      font-size: 12px !important;
+      font-weight: bold;
+      padding: 10px 14px !important;
+      max-width: fit-content !important;
+      border-radius: 8px !important;
+    }
+    .spotify-device-deck button:active { background: #1aa34a !important; }
+
+    .row { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+    
+    .media-controller-card button {
+      flex: 1; padding: 16px 0; font-size: 20px;
+      border: none; border-radius: 12px; background: #1c1f26; color: #cbd5e1;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .media-controller-card button:hover { background: #232832; color: #fff; }
+    .media-controller-card button:active { background: #ffb400; color: #111; transform: translateY(1px); }
+    
+    .vol-row button { font-size: 14px; font-weight: 600; }
+    .upload-row { margin-top: 24px; text-align: center; border-top: 1px solid #1c1f26; padding-top: 20px; }
+    .upload-row input[type=file] { color: #888; font-size: 12px; }
+
+    body {
+      background: #090a0f;
+      margin: 0; padding: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="media-controller-card">
+    <h1>🚚 Cabin Audio System</h1>
+    
+    <div class="hud-console">
+      <div class="hud-header">
+        <span id="hudSourceLabel">SYSTEM HUD v2.4</span>
+        <span class="status" id="gameStatus">CONNECTING…</span>
+      </div>
+      <div class="hud-main">
+        <div class="hud-track-details">
+          <div id="trackName">System Standby</div>
+          <div id="trackArtist">Ready to stream</div>
+        </div>
+        <div class="eq-container" id="eqVisualizer">
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="source-grid">
+      <button onclick="setSource('local')" id="btnLocal">💻 PC Deck</button>
+      <button onclick="setSource('spotify')" id="btnSpotify">🟢 Spotify</button>
+      <button onclick="setSource('radio')" id="btnRadio">📻 Web Radio</button>
+      <button onclick="setSource('apps')" id="btnApps">🚀 Third Party</button>
+    </div>
+
+    <div class="spotify-device-deck" id="spotifyDeviceDeck">
+      <select id="mediaPlayerSelect">
+        <option value="" disabled selected>Select Target Player Device...</option>
+        <option value="phone_spotify">📱 Smartphone (Spotify App)</option>
+        <option value="phone_default">🎵 Phone Native Media Player</option>
+        <option value="truck_cabin">🚛 ETS2 Cabin Audio Rig</option>
+        <option value="desktop_client">💻 PC Spotify Client</option>
+      </select>
+      <button onclick="playOnTargetDevice()">▶ Play on Device</button>
+    </div>
+
+    <div class="row">
+      <button onclick="control('previous')">⏮</button>
+      <button onclick="control('toggle')">⏯</button>
+      <button onclick="control('next')">⏭</button>
+    </div>
+
+    <div class="row vol-row">
+      <button onclick="control('volume/down')">🔉 Vol −</button>
+      <button onclick="control('volume/up')">🔊 Vol +</button>
+    </div>
+
+    <div class="upload-row">
+      <input type="file" id="fileInput" accept="audio/*">
+      <button style="max-width:200px; margin-top:12px; font-size:13px; padding:12px 0;" onclick="uploadTrack()">⬆️ Push File to Cabin</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

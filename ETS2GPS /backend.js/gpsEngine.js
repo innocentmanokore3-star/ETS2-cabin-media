@@ -53,7 +53,7 @@ const gameHour = Math.floor(remainingGameMinutes/60);
   const gameMinutes = Math.round(remainingGameMinutes % 60);
 
 return{
-  gameETA: `${gameHour}h ${gameMins}m`,
+  gameETA: `${gameHour}h ${gameMinutes}m`,
   realETA: realLifeMinutes < 60
   ? `${realLifeMinutes} mins`
     : `${Math.floor(realLifeMinutes / 60)}h ${realLifeMinutes % 60} mins`

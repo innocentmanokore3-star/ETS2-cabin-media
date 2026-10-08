@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () =>
 
       // DOM Element References
     const speedVal = document.getElementById('speedValue');
-    const speedLimitVal = document.getElemenById('speedLimitValue');
+    const speedLimitVal = document.getElementById('speedLimitValue');
     const gearVal = document.getElementById('gearValue');
     const rpmVal = document.getElementById('rpmValue');
     const fuelVal = document.getElementById('fuelValue');
@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', () =>
     telemetry.onData((data) => {
       //Update Dom
       speedVal.textContent = data.speed;
-      speedLimitVal.textContent = data.speedlimit ? `${data.speedLimit} KM/H` : `--`;
+      speedLimitVal.textContent = data.speedLimit ? `${data.speedLimit} KM/H` : `--`;
       gearVal.textContent =data.gear;
       rpmVal.textContent = data.rpm;
       fuelVal.textContent =`${data.fuel}%`;
-      damageVal.textContent = `$data.cargoDamage}%`;
+      damageVal.textContent = `${data.cargoDamage}%`;
 
       //Status Indiactor
       if (data.connected) 
@@ -49,12 +49,13 @@ document.addEventListener('DOMContentLoaded', () =>
       {
         telemetry.toggleMock();
       });
+    }
       if (muteBtn)
       {
         muteBtn.addEventListener('click',() =>
           {
         const isMuted = voice.toggleMute();
-        muteBtn.TextContent = isMuted ? '🔇': '🔊';
+        muteBtn.textContent = isMuted ? '🔇': '🔊';
       });
     //start polling loop 
     telemetry.start();

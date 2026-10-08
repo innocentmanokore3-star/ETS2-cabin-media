@@ -2,7 +2,7 @@
   --bg-primary: #0f111a;
   --bg-card:#1a1d2e;
   --text-main: #e2e8f0;
-  --text-muted: #6478b;
+  --text-muted: #64748b;
   --accent-cyan: #06b6d4;
   --accent-red: #ef4444;
   --accent-green: #22c55e;
@@ -38,7 +38,7 @@
   height: 10px;
   border-radius: 50%;
 }
-.status-dot.connected { background-color: var(accent-green):}
+.status-dot.connected { background-color: var(--accent-green);}
 .status-dot.disconnected {background-color: var(--accent-red);}
 .dashboard-grid{
   display: grid;
@@ -47,7 +47,7 @@
   margin-top: 1rem;
 }
 .card{
-  background-color: var(--big-card);
+  background-color: var(--bg-card);
   padding: 1.5rem;
   border-radius: var(--border-radius);
   border: 1px solid #2d3748;
@@ -74,7 +74,7 @@
   margin-top: 1rem;
   background: #2d3748;
   padding: 0.25rem 0.75rem;
-  border-radius: 20xp;
+  border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -88,7 +88,7 @@
   font-size: 1.25rem;
   font-weight: 700;
 }
-btn{
+.btn{
   background: #2d3748;
   color: #fff;
   border: none;

@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', () =>
         if (connDot) connDot.className = 'status-dot disconnected';
         if (navText) navText.textContent =" Disconnected from Truck telemetry";
       }
-      if (data.placement && typeof data.placemt.x === 'number' && typeof data.placement.z === 'number')
+      if (data.placement && typeof data.placement.x === 'number' && typeof data.placement.z === 'number')
       {
-        gps.updatePosition(ddata.placement.x, data.placemennt.z);
+        gps.updatePosition(data.placement.x, data.placement.z);
       }
 
       if (data.navigation && data.navigation.timeLeftMinutes) {

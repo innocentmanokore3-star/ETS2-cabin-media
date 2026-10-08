@@ -73,7 +73,7 @@ body {
   color: var(--accent-cyan);
   line-height:1;
 }
-.speed-display .unit {
+.speed-display .Unit {
   font-size: 0.875rem;
   color: var(--text-muted);
   display: block;

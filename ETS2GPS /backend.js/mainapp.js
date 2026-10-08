@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () =>
       if (data.navigation && data.navigation.timeLeftMinutes) {
         const eta = gps.calculateETA(data.navigation.timeLeftMinutes, data.inCity ||false);
         if (gameEtaVal) gameEtaVal.textContent = eta.gameETA;
-        if (realEtaval) realEtaVal.textContent = eta.realETA;
+        if (realEtaVal) realEtaVal.textContent = eta.realETA;
       }
       //Pass daata to voice trigger logic
       voice.evaluateTelemetry(data);

@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => 
   {
-    const telemetry = new Telemetryservice();
+    const telemetry = new TelemetryService();
     const voice = new VoiceEngine();
 
       // DOM Element References
-    const speedVal = document.getElementById('SpeedValue');
-    const speedLimitVal = document.getElemenById("speedLimitValue');
-    const gearVal = document.getElemenById('gearValue');
-    const rpmVal = document.getElemenById('rpmValue');
-    const fuelVal = document.getElemenById('fuelValue');
-    const damageVal = document.getElemenById('damageValue');
-    const connDot = document.getElemenById('connectionDot');
-    const navText = document.getElemenById('navigationText');
-    const toggleMockBtn = document.getElemenById('toggleMockBtn');
-    const muteBtn = document.getElemenById('muteBtn');
+    const speedVal = document.getElementById('speedValue');
+    const speedLimitVal = document.getElemenById('speedLimitValue');
+    const gearVal = document.getElementById('gearValue');
+    const rpmVal = document.getElementById('rpmValue');
+    const fuelVal = document.getElementById('fuelValue');
+    const damageVal = document.getElementById('damageValue');
+    const connDot = document.getElementById('connectionDot');
+    const navText = document.getElementById('navigationText');
+    const toggleMockBtn = document.getElementById('toggleMockBtn');
+    const muteBtn = document.getElementById('muteBtn');
 
     //React to incoming data
     telemetry.onData((data) => {
       //Update Dom
       speedVal.textContent = data.speed;
-      speedLimitVal.textContent = data.speedlimit ? '$data.SpeedLimit} KM/H' : '--';
+      speedLimitVal.textContent = data.speedlimit ? `${data.speedLimit} KM/H` : `--`;
       gearVal.textContent =data.gear;
       rpmVal.textContent = data.rpm;
-      fuelVal.textContent ='${data.fuel}%';
-      damageVal.textContent = '$data.cargoDamage}%';
+      fuelVal.textContent =`${data.fuel}%`;
+      damageVal.textContent = `$data.cargoDamage}%`;
 
       //Status Indiactor
       if (data.connected) 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () =>
       }
       else 
       {
-        connDot.className = 'stays-dot disconnected';
+        connDot.className = 'status-dot disconnected';
         navText.textContent =" Disconnected from Truck telemetry";
       }
       //Pass daata to voice trigger logic
@@ -43,10 +43,18 @@ document.addEventListener('DOMContentLoaded', () =>
     });
 
     //Event Listeners
-    toggleMockBtn.addEventListener('click', () => 
+    if (toggleMockBtn)
+    {
+        toggleMockBtn.addEventListener('click', () => 
       {
+        telemetry.toggleMock();
+      });
+      if (muteBtn)
+      {
+        muteBtn.addEventListener('click',() =>
+          {
         const isMuted = voice.toggleMute();
-        muteBtn.TectContent = isMuted ? '🔇': '🔊';
+        muteBtn.TextContent = isMuted ? '🔇': '🔊';
       });
     //start polling loop 
     telemetry.start();

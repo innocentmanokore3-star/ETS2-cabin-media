@@ -38,7 +38,7 @@ class VoiceEngine{
     if(data.speed> data.speedLimit +5 && (now - this.lastSpoken.speeding > this.COOLDOWN))
     {
       const line = this._getRandomline([
-        'Slow down! Limit is ${data.speedlimit}, you are doing  ${data.speed}.',
+        `Slow down! Limit is ${data.speedLimit}, you are doing  ${data.speed}.`,
         'Speed camera ahead! Unless you like paying fines, ease off the gas.',
         'Your 40 ton rig is not a Formula One Car.'
         ]);

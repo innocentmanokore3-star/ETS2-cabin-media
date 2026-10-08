@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DriveAssistant - Ets2 Telemetry Dashboard</title>
+      <link rel="Stylsheet" href="lib/leaflet.css"/>
+    <script src="lib/leaflet.js"></script>
     <link rel="stylesheet" href="css/main.css">
-  </head>
+    </head>
   <body>
     <div class="app-container">
       <header class="app-header">
@@ -21,8 +23,27 @@
             <span id="speedValue">0</span>
               <span class="Unit">KM/H</span>
           </div>
+          <div class="card">
+            <div class="stat><span class="telemetry-bar">GEAR</span><span id="gearValue">0</span></div>
+            <div class="stat><span class="telemetry-bar">RPM</span><span id="rpmValue">0</span></div>
+            <div class="stat><span class="telemetry-bar">FUEL</span><span id="fuelValue">0%</span></div>
+            <div class="stat><span class="telemetry-bar">CARGO DAMAGE</span><span id="damageValue">0%</span></div>
+          </div>
+          <!--New: Navigation Map card -->
+          <div class="card">
+            <h3>NAVIGATION & ETA</h3>
+          <div id="navigationText" style="margin: 0.5rem 0; font-weght: 600;">Disconnected from truck telemetry </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.9rem;">
+            <div>In-Game left: <strong id="gameEta" style="color: var(--accent-cyan);>0h 0m</strong></div>
+            <div>Real-life left: <strong id="realEta" style="color: var(--accent-green);0 min</strong></div>
+            </div>
+          </div>
         </section>
         <!--Navigation  & status card-->
+        <div class="card">
+          <h3>GPS NAVIGATION MAP</h3>
+          <div id="map" style="height: 300px; widht: 100%; border-radius: 8px; margin-top: 0.75rem; background: #0f111a;"></div>
+        </div>
         <section class="Card nav-card">
           <div class="nav-instruction">
             <h2 id="navigationText">Connecting to Telemetry...</h2>
@@ -40,6 +61,7 @@
         </section>
       </main>
     </div>
+    <script src="js/gpsEngine.js"></script>
     <script src="js/telemetry.js"></script>
     <script src="js/voiceEngine.js"></script>
     <script src="js/app.js"></script>

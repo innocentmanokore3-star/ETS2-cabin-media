@@ -14,6 +14,11 @@
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+boady {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  padding: 1.5rem;
+}
 .app-header{
   display: flex;
   justify-content: space-between;
@@ -40,13 +45,17 @@
 }
 .status-dot.connected { background-color: var(--accent-green);}
 .status-dot.disconnected {background-color: var(--accent-red);}
-.dashboard-grid{
+
+.dashboard-grid,
+.Dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 1rem;
   margin-top: 1rem;
 }
-.card{
+
+.card,
+.Card {
   background-color: var(--bg-card);
   padding: 1.5rem;
   border-radius: var(--border-radius);
@@ -58,7 +67,9 @@
   align-items: center;
   justify-content: center;
 }
-.speed-display{
+
+.speed-display .unit,
+.speed-display .Unit{
   font-size: 4rem;
   font-weight: 800;
   color: var(--accent-cyan);

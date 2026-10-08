@@ -2,7 +2,7 @@ class VoiceEngine{
   constructor(){
     this.synth =window.speechSynthesis;
     this.isMuted= false;
-    this.lastspoken={
+    this.lastSpoken={
       speeding: 0,
       damage:0
     };
@@ -19,7 +19,7 @@ class VoiceEngine{
     utterance.rate =1.0;
     utterance.pitch = 0.95;
     //Pick an English voice
-  const voices = this.synt.getVoices();
+  const voices = this.synth.getVoices();
     const selectedVoice = voices.find(v=> v.lang.startsWith('en')) || voices[0];
     if (selectedVoice) utterance.voice =selectedVoice;
     this.synth.speak(utterance);
@@ -33,14 +33,14 @@ class VoiceEngine{
 
   evaluateTelemetry(data)
   {
-    const now = date.now();
+    const now = Date.now();
     //trigger 1: Speeding check
     if(data.speed> data.speedLimit +5 && (now - this.lastSpoken.speeding > this.COOLDOWN))
     {
       const line = this._getRandomline([
         'Slow down! Limit is ${data.speedlimit}, you are doing  ${data.speed}.',
         'Speed camera ahead! Unless you like paying fines, ease off the gas.',
-        'your 40 ton rig is not a Formula One Car.'
+        'Your 40 ton rig is not a Formula One Car.'
         ]);
       this.speak(line);
       this.lastSpoken.speeding = now;
@@ -48,7 +48,8 @@ class VoiceEngine{
     // Triger 2 High Cargoo damage 
     if (data.cargoDamage > 10 && (now - this.lastSpoken.damage > this.COOLDOWN))
     {
-      this.speak("Cargo damage detected. The client will definitely deduct that from your pay."):
+      this.speak("Cargo damage detected. The client will definitely deduct that from your pay.");
+      this.lastSpoken.damage = now;
     }
   }
   _getRandomline(lines)

@@ -6,14 +6,14 @@ class GPSEngine
   this.map = L.map(mapContainerId,
                    {
                      crs: L.CRS.Simple,
-                     minZoom: -5;
+                     minZoom: -5,
                      maxZoom: 3,
                     zoomControl: true
   });
   //custom truck icon marker
 const truckIcon =L.divIcon({
   className: 'truck-maker',
-  html: <div style="font-size: 24px; text-shadow: 0 0 5px #000;">🚛</div>',
+  html: '<div style="font-size: 24px; text-shadow: 0 0 5px #000;">🚛</div>',
   iconSize: [30, 30],
   iconAnchor: [15, 15]
 });
@@ -27,13 +27,13 @@ this.map.setView([0, 0], 0);
 */
 updatePosition(x, z)
 {
-  if (typeof x !=='number' || typeof z !== 'number) return;
+  if (typeof x !=='number' || typeof z !== 'number') return;
       //ETS2 X = East/west (lng), ETS2 -Z = North/South (Lat)
     const lat = -z;
   const lng = x;
 
-coonst newPPos = [lat, lang];
-  this.marker.setLatLng(newos);
+const newPos = [lat, lng];
+  this.marker.setLatLng(newPos);
   this.map.panTo(newPos, { animate: true, duration: 0.5});
 }
 /**
@@ -47,16 +47,16 @@ if (!remainingGameMinutes || remainingGameMinutes <= 0)
   return { gameETA: '0h 0m', realETA: '0 min'};
 }
   const scaleFactor = inCity ? 3 : 19;
-  const realLifeMinutes = Math.round(remainingGameminutes / scaleFactor);
+  const realLifeMinutes = Math.round(remainingGameMinutes / scaleFactor);
 
 const gameHour = Math.floor(remainingGameMinutes/60);
   const gameMinutes = Math.round(remainingGameMinutes % 60);
 
 return{
-  gameETA: `${gameHours}h $gameMins}m`,
+  gameETA: `${gameHour}h ${gameMins}m`,
   realETA: realLifeMinutes < 60
   ? `${realLifeMinutes} mins`
-    : `${Math.floor(realLifeMinutes / 60)}h ${realLifeMinutes % 60} mis`
+    : `${Math.floor(realLifeMinutes / 60)}h ${realLifeMinutes % 60} mins`
 };
 }
 }

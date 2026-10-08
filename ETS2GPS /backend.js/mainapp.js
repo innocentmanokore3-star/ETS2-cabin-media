@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () =>
         const isMuted = voice.toggleMute();
         muteBtn.textContent = isMuted ? '🔇': '🔊';
       });
+      }
     //start polling loop 
     telemetry.start();
   });
